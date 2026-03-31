@@ -12,7 +12,7 @@ The **firmware/port itself was not made by me** — I built the **web flasher to
 
 ## Flash Tool
 
-<a href="PASTE-YOUR-FLASHER-LINK-HERE" target="_blank" rel="noopener noreferrer">
+<a href="https://atomnft.github.io/PorkChop-CYD-Port-flasher/flash0.html" target="_blank" rel="noopener noreferrer">
   <img src="Images/flash-button.png" alt="Flash Now" width="200" height="140">
 </a>
 
