@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>M5PorkChop-Port-Flasher</title>
+  <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+  <meta name="description" content="Easily allows users to install Xombi3's M5PorkChop-Port." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-soft: #0d1018;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-strong: rgba(147, 197, 253, 0.14);
+      --accent: #f3a6d7;
+      --accent-soft: #a9d8ff;
+      --accent-bright: #ffd3ec;
+      --accent-glow: rgba(169, 216, 255, 0.30);
+      --text: #f7f7fb;
+      --text-soft: #d7dceb;
+      --border: rgba(214, 169, 255, 0.40);
+      --shadow: 0 0 22px rgba(169, 216, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+      padding: 0;
+      margin: 0;
+      line-height: 1.5;
+      background:
+        radial-gradient(circle at top, rgba(243, 166, 215, 0.14), transparent 32%),
+        radial-gradient(circle at right top, rgba(169, 216, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, #05060a 0%, #0b0d14 52%, #11131a 100%);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 18px 40px;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 700px;
+      width: 100%;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .intro-text {
+      font-size: 20px;
+      color: var(--accent-soft);
+      text-shadow: 0 0 10px rgba(169, 216, 255, 0.18);
+      margin: 0;
+    }
+
+    .hero-card {
+      text-align: center;
+      margin: 20px auto 28px;
+      max-width: 700px;
+      padding: 18px;
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      box-shadow: var(--shadow);
+      background-image: url('Images/usb-plug.gif');
+      background-size: 12% auto;
+      background-position: left 12px top 10px;
+      background-repeat: no-repeat;
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-card h2 {
+      color: var(--accent);
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0 0 10px 0;
+      text-shadow: 0 0 10px rgba(243, 166, 215, 0.24);
+    }
+
+    .hero-card p {
+      color: var(--text-soft);
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .fieldset-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    fieldset {
+      min-width: 300px;
+      max-width: 420px;
+      margin: 0;
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(169, 216, 255, 0.12), rgba(243, 166, 215, 0.08));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: inline-block;
+      backdrop-filter: blur(6px);
+    }
+
+    legend {
+      font-size: 22px;
+      text-align: center;
+      font-weight: 800;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255,255,255,0.05));
+      border: 1px solid rgba(214, 169, 255, 0.28);
+      border-radius: 16px;
+      padding: 10px 18px;
+      color: var(--text);
+      box-shadow: 0 0 14px rgba(169, 216, 255, 0.12);
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background-color: rgba(10, 12, 18, 0.88);
+      color: var(--text);
+      font-size: 16px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 14px rgba(169, 216, 255, 0.18);
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(243, 166, 215, 0.16);
+    }
+
+    .button-row {
+      margin-top: 26px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .install-shell {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 240px;
+      min-height: 64px;
+      padding: 10px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(169, 216, 255, 0.16), rgba(243, 166, 215, 0.08) 45%, rgba(255, 255, 255, 0.04));
+      box-shadow: 0 0 20px rgba(169, 216, 255, 0.14), 0 0 14px rgba(243, 166, 215, 0.10), inset 0 0 0 1px rgba(255,255,255,0.04);
+      backdrop-filter: blur(6px);
+    }
+
+    esp-web-install-button {
+      --esp-tools-button-color: #10131a;
+      --esp-tools-button-background: linear-gradient(180deg, #ffd6ee, #f3a6d7 55%, #a9d8ff);
+      --esp-tools-button-hover-background: linear-gradient(180deg, #ffe6f4, #c7e6ff);
+      --esp-tools-button-active-background: linear-gradient(180deg, #e8b9da, #9dcdf7);
+      --esp-tools-button-border-radius: 14px;
+      --esp-tools-button-font-size: 16px;
+      --esp-tools-button-padding: 14px 22px;
+    }
+
+    .invisible {
+      visibility: hidden;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    esp-web-install-button[install-unsupported] {
+      visibility: inherit;
+    }
+
+    a {
+      color: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+	.footer {
+	  color: var(--text-soft);
+	  margin-top: 70px;
+	  border-top: 1px solid var(--border);
+	  padding: 28px 18px 18px;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  gap: 12px;
+	  text-align: center;
+	  background: rgba(255,255,255,0.03);
+	}
+	
+	.footer-main {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  flex-wrap: wrap;
+	  gap: 10px;
+	}
+	
+	.made-by {
+	  color: var(--accent-soft);
+	  font-size: 14px;
+	  letter-spacing: 0.4px;
+	}
+
+	#visitor-counter {
+	  color: var(--accent-soft);
+	  font-size: 14px;
+	  margin-top: 4px;
+	}
+
+    @media (max-width: 768px) {
+      .intro-text {
+        font-size: 18px;
+      }
+
+      .hero-card {
+        background-size: 48px auto;
+        background-position: left 10px top 10px;
+      }
+
+      legend {
+        font-size: 18px;
+      }
+    }
+  </style>
+
+  <script type="module" src="https://unpkg.com/esp-web-tools@8.0.1/dist/web/install-button.js?module"></script>
+</head>
+<body>
+  <div class="page">
+    <img src="Images/flasherheader.png" alt="Logo" class="logo">
+
+    <div class="wrapper">
+      <p class="intro-text">
+        This utility is designed to flash Xombi3's M5PorkChop-Port onto a ESP32-2432S028R.
+      </p>
+    </div>
+
+    <div class="hero-card">
+      <h2>Xombi3's M5PorkChop-Port Flasher</h2>
+      <p>
+        Your gateway to effortlessly installing Xombi3's M5PorkChop-Port firmware.
+        Designed with a sleek web interface, it transforms firmware flashing into a fast,
+        hassle-free experience.
+      </p>
+    </div>
+
+    <div class="fieldset-row">
+      <fieldset>
+        <legend>M5PorkChop-Port</legend>
+        <select id="select-M5PorkChop-Port">
+          <option value="" selected disabled>CYD HERE</option>
+          <option value="M5PorkChop-Port">Xombi3's M5PorkChop-Port</option>
+        </select>
+      </fieldset>
+    </div>
+
+    <div class="button-row">
+      <div class="install-shell">
+        <esp-web-install-button class="invisible"></esp-web-install-button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('select-M5PorkChop-Port').addEventListener('change', (event) => {
+      const button = document.querySelector('esp-web-install-button');
+      button.manifest = `web/manifest_${event.target.value}.json`;
+      button.classList.remove('invisible');
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('page_view_count')) {
+        localStorage.setItem('page_view_count', Number(localStorage.getItem('page_view_count')) + 1);
+      } else {
+        localStorage.setItem('page_view_count', 1);
+      }
+
+      const counter = document.getElementById('visitor-counter');
+      if (counter) {
+        counter.innerText = `Visitor count: ${localStorage.getItem('page_view_count')}`;
+      }
+    });
+  </script>
+
+	<div class="footer">
+	  <div class="footer-main">
+		<span>✨ <a href="https://github.com/Xombi3/Porkchop-cyd-Port">Xombi3's M5PorkChop-Port</a></span>
+		<span>|</span>
+		<span>Installer powered by <a href="https://esphome.github.io/esp-web-tools/">ESP Web Tools</a> 🛠️</span>
+		<span>|</span>
+		<span class="made-by">
+		  Flasher made with ❤️ by <a href="https://github.com/ATOMNFT" target="_blank" rel="noopener noreferrer">ATOMNFT</a>
+		</span>
+	  </div>
+
+	  <div id="visitor-counter"></div>
+	</div>
+</body>
+</html>
